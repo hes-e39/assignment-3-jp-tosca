@@ -38,6 +38,16 @@ If for any reason your workout app errors out, then you should handle this and p
 ### Workout history (Only Graduate)
 We want to create a new screen that displays a list of previous workouts (create a new route and link to the history page in the navbar). ***Once a workout has been completed, add this workout to the history and save it to local storage***. On the new history screen display all workouts completed and for each workout you should display some summary of all timers run and what the durations/rounds for each timer was.
 
+## Feature Checklist
+
+- [ ] Persisting state
+- [ ] Edit a timer
+- [ ] Change the order of a timer in configured workout
+- [ ] Display total time
+- [ ] Add description to each timer
+- [ ] Wrap app using react-error-boundary
+- [ ] Workout history (Only Graduate)
+
 ## Deliverables
 - Complete all features listed above
 - As always deploy your app 
