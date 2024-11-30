@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { RemoveButtonStyle } from '../../utils/Styled';
 import { type Timer, TimersContext } from '../context/TimersContextProvider';
 import Countdown from '../timers/Countdown';
@@ -286,4 +287,12 @@ export const StatusDisplay = ({ status, children }: { status: string | undefined
     const classNameColor = status === 'finished' ? 'bg-slate-800' : status === 'stopped' ? 'bg-white' : 'bg-lime-200';
 
     return <div className={`${classNameColor} rounded-lg m-3 border-2 border-gray-800`}>{children}</div>;
+};
+
+export const HeaderButton = ({ targetParam, buttonLabel }: { targetParam: string; buttonLabel: string }) => {
+    return (
+        <Link className="bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium" to={targetParam}>
+            {buttonLabel}
+        </Link>
+    );
 };

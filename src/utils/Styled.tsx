@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const AddViewDiv = styled.div`
+export const ContentView = styled.div`
   
   display: flex;
   flex-direction: column;

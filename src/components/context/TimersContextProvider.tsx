@@ -1,4 +1,5 @@
 import { type MutableRefObject, createContext, useEffect, useRef, useState } from 'react';
+import { usePersistedState } from '../../hooks/usePersistedState';
 import { stopWorkout } from '../../utils/helpers';
 
 export type Timer = {
@@ -52,9 +53,12 @@ export const TimersContext = createContext<TimersContextType>({
 });
 
 const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
+    //const [timers, setTimers] = useState<Timer[]>([]);
     const [timers, setTimers] = useState<Timer[]>([]);
     const [running, setRunning] = useState<Timer | Partial<Timer> | null>(null);
     const intervalRef: MutableRefObject<number | undefined> = useRef();
+    const [history, setHistory] = usePersistedState<string[]>('history', []);
+
     useEffect(() => {
         if (running === null) {
             clearInterval(intervalRef.current);
@@ -135,8 +139,12 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
                                 }
 
                                 updatedTimers[timerIndex] = nextTimer;
-
                                 setRunning(updatedTimers[timerIndex]);
+
+                                if (timerIndex === updatedTimers.length - 1 && nextTimer.status === 'finished') {
+                                    setHistory([...history, new Date().toLocaleString()]);
+                                }
+
                                 return updatedTimers;
                             });
                         }, 1000);

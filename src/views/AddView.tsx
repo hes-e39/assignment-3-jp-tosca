@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { AddViewDiv } from '../utils/Styled';
 
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { TimersContext } from '../components/context/TimersContextProvider';
 import { TabataTimerInput, TimerInput, TimerTypeSelect, XYTimerInput } from '../components/generic/TimerComps';
+import { ContentView } from '../utils/Styled';
 import { calculateRestDurationVal, calculateRoundsVal } from '../utils/helpers';
 
 const AddView = () => {
@@ -26,7 +26,7 @@ const AddView = () => {
     ];
 
     return (
-        <AddViewDiv className="bg-slate-500 fixed bottom-0 left-0 right-0 top-16">
+        <ContentView className="bg-slate-500 fixed bottom-0 left-0 right-0 top-16">
             <br />
             <TimerTypeSelect timerTypes={timerTypes} selected={selected} setSelected={setSelected} />
             <br />
@@ -55,7 +55,7 @@ const AddView = () => {
             >
                 ➕ Add
             </Link>
-        </AddViewDiv>
+        </ContentView>
     );
 };
 
