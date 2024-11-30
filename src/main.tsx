@@ -4,10 +4,16 @@ import { Outlet, RouterProvider, createHashRouter } from 'react-router-dom';
 import HistoryView from './views/HistoryView';
 
 import './index.css';
+import { ErrorBoundary } from 'react-error-boundary';
 import TimersContextProvider from './components/context/TimersContextProvider';
 import { HeaderButton } from './components/generic/TimerComps';
 import AddView from './views/AddView';
+import ErrorView from './views/ErrorView';
 import TimersView from './views/TimersView';
+
+function ErrorFallback({ error, resetErrorBoundary }: { error: Error; resetErrorBoundary: () => void }) {
+    return <ErrorView error={error} resetErrorBoundary={resetErrorBoundary} />;
+}
 
 const PageIndex = () => {
     return (
@@ -20,10 +26,11 @@ const PageIndex = () => {
                     <HeaderButton buttonLabel=" 🗒️ My Workout History" targetParam="/history" />
                 </div>
             </div>
-
-            <TimersContextProvider>
-                <Outlet />
-            </TimersContextProvider>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+                <TimersContextProvider>
+                    <Outlet />
+                </TimersContextProvider>
+            </ErrorBoundary>
         </>
     );
 };

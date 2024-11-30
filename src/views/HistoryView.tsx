@@ -3,6 +3,7 @@ import { ContentView } from '../utils/Styled';
 
 const HistoryView = () => {
     const [history, setHistory] = usePersistedState<string[]>('history', []);
+
     return (
         <ContentView className="bg-slate-500 fixed bottom-0 left-0 right-0 top-16 ">
             <br />
