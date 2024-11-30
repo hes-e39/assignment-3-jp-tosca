@@ -31,6 +31,7 @@ export type TimersContextType = {
         initialRestDuration?: number;
     }) => Timer;
     deleteTimer: (id: string) => void;
+    swapTimers: (id1: string, id2: string) => void;
     startWorkout: () => void;
     stopWorkout: () => void;
     fastForward: () => void;
@@ -52,6 +53,7 @@ export const TimersContext = createContext<TimersContextType>({
     startWorkout: () => {},
     stopWorkout: () => {},
     fastForward: () => {},
+    swapTimers: () => {},
 });
 
 const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
@@ -175,6 +177,15 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
                             return updatedTimers;
                         });
                     }
+                },
+                swapTimers: (id1, id2) => {
+                    const index1 = timers.findIndex(t => t.id === id1);
+                    const index2 = timers.findIndex(t => t.id === id2);
+                    const newTimers = [...timers];
+                    const temp = newTimers[index1];
+                    newTimers[index1] = newTimers[index2];
+                    newTimers[index2] = temp;
+                    setTimers(newTimers);
                 },
             }}
         >

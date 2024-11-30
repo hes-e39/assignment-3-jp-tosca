@@ -296,6 +296,34 @@ export const RemoveButton = ({ removeId }: { removeId: string }) => {
     return <RemoveButtonStyle onClick={() => timersContext.deleteTimer(removeId)}>❌</RemoveButtonStyle>;
 };
 
+export const LeftButton = ({ removeId }: { removeId: string }) => {
+    const timersContext = useContext(TimersContext);
+    return (
+        <RemoveButtonStyle
+            onClick={() => {
+                const index = timersContext.timers.findIndex(timer => timer.id === removeId);
+                timersContext.swapTimers(removeId, timersContext.timers[index - 1].id);
+            }}
+        >
+            ⬅️
+        </RemoveButtonStyle>
+    );
+};
+
+export const RightButton = ({ removeId }: { removeId: string }) => {
+    const timersContext = useContext(TimersContext);
+    return (
+        <RemoveButtonStyle
+            onClick={() => {
+                const index = timersContext.timers.findIndex(timer => timer.id === removeId);
+                timersContext.swapTimers(removeId, timersContext.timers[index + 1].id);
+            }}
+        >
+            ➡️
+        </RemoveButtonStyle>
+    );
+};
+
 /*
  * Component to display all the timers of the workout.
  */
