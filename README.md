@@ -44,7 +44,7 @@ We want to create a new screen that displays a list of previous workouts (create
 - [ ] Edit a timer
 - [ ] Change the order of a timer in configured workout
 - [x] Display total time
-- [x] Add description to each timer !
+- [x] Add description to each timer
 - [x] Wrap app using react-error-boundary
 - [x] Workout history (Only Graduate)
 

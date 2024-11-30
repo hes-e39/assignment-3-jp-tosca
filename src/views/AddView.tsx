@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,10 @@ const AddView = () => {
     const [selected, setSelected] = useState(0);
     //Context
     const timersContext = useContext(TimersContext);
+
+    useEffect(() => {
+        setTimerLabel(timerTypes[selected].C.props.timerLabel);
+    }, [selected]);
 
     //Timer types inputs and mapping to the values.
     const timerTypes = [
