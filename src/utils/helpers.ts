@@ -43,3 +43,40 @@ export function stopWorkout(setTimers: React.Dispatch<React.SetStateAction<Timer
     );
     //clearInterval(intervalRef.current);
 }
+
+export function getTotalTime(timers: Timer[]): string {
+    const totalTime = timers.reduce((acc, timer) => {
+        if (timer.initialRestDuration && timer.initialRounds) {
+            return acc + timer.initialDuration * (timer.initialRounds / 2) + timer.initialRestDuration * (timer.initialRounds / 2);
+        } else if (timer.initialRounds) {
+            return acc + timer.initialDuration * (timer.initialRounds ?? 0);
+        } else {
+            return acc + timer.initialDuration;
+        }
+    }, 0);
+    return milisecondsToTime(totalTime);
+}
+
+export function getTotalTimeLeft(timers: Timer[]): string {
+    const totalTime = timers.reduce((acc, timer) => {
+        let time = 0;
+        if (timer.restDuration && timer.rounds) {
+            if (timer.rounds % 2 === 0) {
+                time = timer.initialDuration * (timer.rounds / 2 - 1) + timer.restDuration * (timer.rounds / 2) + timer.duration;
+            } else {
+                time = timer.initialDuration * (timer.rounds / 2) + timer.restDuration * (timer.rounds / 2 - 1) + timer.duration;
+            }
+            //return acc + timer.duration * (timer.rounds / 2) + timer.duration * (timer.rounds / 2);
+        } else if (timer.rounds && timer.initialRounds) {
+            time = timer.initialDuration * (timer.rounds - 1) + timer.duration; //+  - timer.duration * timer.rounds;
+        } else {
+            if (timer.type === 'Stopwatch') {
+                time = timer.initialDuration - timer.duration;
+            } else {
+                time = timer.duration;
+            }
+        }
+        return acc + time;
+    }, 0);
+    return milisecondsToTime(totalTime);
+}

@@ -44,7 +44,7 @@ export const TimerButton = ({ onClickParam, timerButtonLabel }: TimerButtonProps
  */
 export const ControlsDiv = ({ children }: { children: React.ReactNode }) => {
     // mx-auto px-6 py-3 flex items-center
-    return <div className="bg-gray-800 absolute bottom-0 right-0 left-0 flex justify-center space-x-4 text-6xl p-5 ">{children}</div>;
+    return <div className="bg-gray-800 absolute bottom-0 right-0 left-0 flex-col text-center space-x-4 text-6xl p-5 ">{children}</div>;
 };
 
 /**

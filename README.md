@@ -43,7 +43,7 @@ We want to create a new screen that displays a list of previous workouts (create
 - [ ] Persisting state
 - [ ] Edit a timer
 - [ ] Change the order of a timer in configured workout
-- [ ] Display total time
+- [x] Display total time
 - [ ] Add description to each timer
 - [ ] Wrap app using react-error-boundary
 - [x] Workout history (Only Graduate)
