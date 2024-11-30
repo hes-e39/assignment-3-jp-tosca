@@ -21,7 +21,7 @@ const Tabata = ({ id }: TabataProps) => {
             <Timer>
                 <TimerTitle>
                     <RemoveButton removeId={id} />
-                    Tabata
+                    {t?.timerLabel || 'Tabata'}
                 </TimerTitle>
                 <TimeDisplay value={periodValue} label={'Period'} />
                 <TimeDisplay value={roundsValue} label={'Rounds'} />

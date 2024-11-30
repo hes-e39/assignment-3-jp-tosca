@@ -10,6 +10,7 @@ import { calculateRestDurationVal, calculateRoundsVal } from '../utils/helpers';
 const AddView = () => {
     //Values used by the inputs
     const [duration, setDuration] = useState(3000);
+    const [timerLabel, setTimerLabel] = useState('');
     const [rounds, setRounds] = useState(0);
     const [restDuration, setRestDuration] = useState(0);
     //Value used for the selector
@@ -19,10 +20,10 @@ const AddView = () => {
 
     //Timer types inputs and mapping to the values.
     const timerTypes = [
-        { title: 'Countdown', C: <TimerInput setDuration={setDuration} label="Duration (MS)" /> },
-        { title: 'Stopwatch', C: <TimerInput setDuration={setDuration} label="Time limit (MS)" /> },
-        { title: 'XY', C: <XYTimerInput setDuration={setDuration} setRounds={setRounds} /> },
-        { title: 'Tabata', C: <TabataTimerInput setDuration={setDuration} setRounds={setRounds} setRestDuration={setRestDuration} /> },
+        { title: 'Countdown', C: <TimerInput setDuration={setDuration} inputLabel="Duration (MS)" timerLabel="Countdown" setTimerLabel={setTimerLabel} /> },
+        { title: 'Stopwatch', C: <TimerInput setDuration={setDuration} inputLabel="Time limit (MS)" timerLabel="Stopwatch" setTimerLabel={setTimerLabel} /> },
+        { title: 'XY', C: <XYTimerInput setDuration={setDuration} setRounds={setRounds} timerLabel="XY" setTimerLabel={setTimerLabel} /> },
+        { title: 'Tabata', C: <TabataTimerInput setDuration={setDuration} setRounds={setRounds} setRestDuration={setRestDuration} timerLabel="Tabata" setTimerLabel={setTimerLabel} /> },
     ];
 
     return (
@@ -43,6 +44,7 @@ const AddView = () => {
                     timersContext.createTimer({
                         status: 'stopped',
                         type: timerTypes[selected].title,
+                        timerLabel: timerLabel,
                         duration: durationVal,
                         initialDuration: duration,
                         rounds: roundsVal,

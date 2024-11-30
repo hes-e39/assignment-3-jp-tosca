@@ -17,7 +17,7 @@ const Stopwatch = ({ id }: StopwatchProps) => {
             <Timer>
                 <TimerTitle>
                     <RemoveButton removeId={id} />
-                    Stopwatch
+                    {t?.timerLabel || 'Stopwatch'}
                 </TimerTitle>
                 <TimeDisplay value={milisecondsToTime(t?.duration || 0)} />
             </Timer>

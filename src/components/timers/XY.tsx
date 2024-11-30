@@ -17,7 +17,7 @@ const XY = ({ id }: XYProps) => {
             <Timer>
                 <TimerTitle>
                     <RemoveButton removeId={id} />
-                    XY Timer
+                    {t?.timerLabel || 'XY'}
                 </TimerTitle>
                 <TimeDisplay value={roundsValue} label={'Rounds'} />
                 <TimeDisplay value={milisecondsToTime(t?.duration || 0)} />

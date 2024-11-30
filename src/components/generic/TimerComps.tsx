@@ -96,13 +96,14 @@ export const TimerInputsContainer = ({ children }: { children: React.ReactNode }
 export type TimerInputComponentProps = {
     label: string;
     id: string;
-    defaultValue: number;
-    min: number;
-    max: number;
+    defaultValue: number | string | undefined;
+    min?: number;
+    max?: number;
+    type?: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export const TimerInputComponent = ({ label, id, defaultValue, min, max, onChange }: TimerInputComponentProps) => {
+export const TimerInputComponent = ({ label, id, defaultValue, min, max, onChange, type = 'number' }: TimerInputComponentProps) => {
     return (
         <>
             <div className="flex items-center ">
@@ -114,7 +115,7 @@ export const TimerInputComponent = ({ label, id, defaultValue, min, max, onChang
                 <input
                     className="appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-gray-800"
                     id={id}
-                    type="number"
+                    type={type}
                     defaultValue={defaultValue}
                     min={min}
                     max={max}
@@ -130,17 +131,28 @@ export const TimerInputComponent = ({ label, id, defaultValue, min, max, onChang
  */
 type TimerInputProps = {
     setDuration: (value: number) => void;
-    label: string;
+    inputLabel: string;
+    timerLabel?: string;
+    setTimerLabel?: (value: string) => void;
 };
 
 /**
  * Component for the input of the time of the countdown or Stopwatch timers.
  */
-export const TimerInput = ({ setDuration, label }: TimerInputProps) => {
+export const TimerInput = ({ setDuration, inputLabel, timerLabel, setTimerLabel }: TimerInputProps) => {
     return (
         <TimerInputsContainer>
             <TimerInputComponent
-                label={label}
+                label="Title"
+                id="titleInput"
+                type="text"
+                defaultValue={timerLabel}
+                onChange={event => {
+                    setTimerLabel && setTimerLabel(event.target.value);
+                }}
+            />
+            <TimerInputComponent
+                label={inputLabel}
                 id="timeInput"
                 min={1000}
                 max={84400000}
@@ -161,14 +173,25 @@ type XYTimerInputProps = {
     setRounds: (value: number) => void;
     labelDuration?: string;
     labelRounds?: string;
+    timerLabel?: string;
+    setTimerLabel?: (value: string) => void;
 };
 
 /*
  * Component for the input of the time and rounds of the XY timer.
  */
-export const XYTimerInput = ({ setDuration, setRounds, labelDuration = 'Round Duration (MS)', labelRounds = 'Rounds' }: XYTimerInputProps) => {
+export const XYTimerInput = ({ setDuration, setRounds, labelDuration = 'Round Duration (MS)', labelRounds = 'Rounds', timerLabel, setTimerLabel }: XYTimerInputProps) => {
     return (
         <TimerInputsContainer>
+            <TimerInputComponent
+                label="Title"
+                id="titleInput"
+                type="text"
+                defaultValue={timerLabel}
+                onChange={event => {
+                    setTimerLabel && setTimerLabel(event.target.value);
+                }}
+            />
             <TimerInputComponent
                 label={labelDuration}
                 id="timeInput"
@@ -203,6 +226,8 @@ type TabataTimerInputProps = {
     labelDuration?: string;
     labelRestDuration?: string;
     labelRounds?: string;
+    timerLabel?: string;
+    setTimerLabel?: (value: string) => void;
 };
 
 /*
@@ -215,9 +240,20 @@ export const TabataTimerInput = ({
     labelDuration = 'Active Duration',
     labelRestDuration = 'Rest Duration',
     labelRounds = 'Rounds',
+    timerLabel,
+    setTimerLabel,
 }: TabataTimerInputProps) => {
     return (
         <TimerInputsContainer>
+            <TimerInputComponent
+                label="Title"
+                id="titleInput"
+                type="text"
+                defaultValue={timerLabel}
+                onChange={event => {
+                    setTimerLabel && setTimerLabel(event.target.value);
+                }}
+            />
             <TimerInputComponent
                 label={labelDuration}
                 id="timeInput"

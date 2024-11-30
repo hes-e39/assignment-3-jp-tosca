@@ -4,6 +4,7 @@ import { stopWorkout } from '../../utils/helpers';
 
 export type Timer = {
     id: string;
+    timerLabel?: string;
     status: string;
     type: string;
     initialDuration: number;
@@ -20,6 +21,7 @@ export type TimersContextType = {
     setRunning: (timer: Timer | Partial<Timer> | null) => void;
     createTimer: (timer: {
         status?: string;
+        timerLabel?: string;
         type: string;
         duration: number;
         initialDuration: number;
@@ -77,10 +79,11 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
                 timers,
                 running,
                 setRunning,
-                createTimer: ({ type, duration, initialDuration, rounds, initialRounds, restDuration, initialRestDuration }) => {
+                createTimer: ({ type, timerLabel, duration, initialDuration, rounds, initialRounds, restDuration, initialRestDuration }) => {
                     const newTimer = {
                         id: `${Date.now()}`,
                         status: 'stopped',
+                        timerLabel,
                         type,
                         duration,
                         initialDuration,

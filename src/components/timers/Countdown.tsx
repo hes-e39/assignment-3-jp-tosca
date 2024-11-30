@@ -16,7 +16,7 @@ const Countdown = ({ id }: CountdownProps) => {
             <Timer>
                 <TimerTitle>
                     <RemoveButton removeId={id} />
-                    Countdown
+                    {t?.timerLabel || 'Countdown'}
                 </TimerTitle>
                 <TimeDisplay value={milisecondsToTime(t?.duration || 0)} />
             </Timer>
