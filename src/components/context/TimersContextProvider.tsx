@@ -163,7 +163,7 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
                             if (timerIndex === -1) return prevTimers;
                             const updatedTimers = [...prevTimers];
                             const nextTimer = { ...updatedTimers[timerIndex] };
-                            nextTimer.duration = 0;
+                            nextTimer.duration = nextTimer.type === 'Stopwatch' ? nextTimer.initialDuration : 0;
                             nextTimer.restDuration = nextTimer.restDuration === undefined ? undefined : 0;
                             nextTimer.rounds = nextTimer.rounds === undefined ? undefined : 0;
                             nextTimer.status = 'finished';
