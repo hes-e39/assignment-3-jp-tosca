@@ -1,4 +1,5 @@
-# Assignment 3 (A3)
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Hs8FT2up)
+# [Assignment 3 (A3)](https://hes-e39.github.io/assignment-3-jp-tosca/)
 
 Now that we have our basic workout app working (A2) we are going to build out more features. Our starting point is your A2 code, so copy it into this repo (not the `.github` folder). ***The goal is to have a production ready workout app by the end of A3.*** Some of the features below are harder to implement than others. We recommend staring with the "Persisting state" and then doing the rest in any order.
 
@@ -36,6 +37,16 @@ If for any reason your workout app errors out, then you should handle this and p
 
 ### Workout history (Only Graduate)
 We want to create a new screen that displays a list of previous workouts (create a new route and link to the history page in the navbar). ***Once a workout has been completed, add this workout to the history and save it to local storage***. On the new history screen display all workouts completed and for each workout you should display some summary of all timers run and what the durations/rounds for each timer was.
+
+## Feature Checklist
+
+- [x] Persisting state
+- [x] Edit a timer
+- [x] Change the order of a timer in configured workout
+- [x] Display total time
+- [x] Add description to each timer
+- [x] Wrap app using react-error-boundary
+- [x] Workout history (Only Graduate)
 
 ## Deliverables
 - Complete all features listed above
