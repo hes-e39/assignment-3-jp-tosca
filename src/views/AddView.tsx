@@ -111,7 +111,7 @@ const AddView = () => {
                         }}
                         to="/"
                     >
-                        UPDATE
+                        Update
                     </Link>
                 </>
             ) : (

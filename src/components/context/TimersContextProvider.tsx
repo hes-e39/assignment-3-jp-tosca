@@ -1,6 +1,7 @@
 import { type MutableRefObject, createContext, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { usePersistedState } from '../../hooks/usePersistedState';
-import { stopWorkout } from '../../utils/helpers';
+import { startWorkout, stopWorkout } from '../../utils/helpers';
 
 export type Timer = {
     id: string;
@@ -72,11 +73,12 @@ export const TimersContext = createContext<TimersContextType>({
 });
 
 const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
-    //const [timers, setTimers] = useState<Timer[]>([]);
     const [timers, setTimers] = useState<Timer[]>([]);
-    const [running, setRunning] = useState<Timer | Partial<Timer> | null>(null);
+    //const [running, setRunning] = useState<Timer | Partial<Timer> | null>(null);
+    const [running, setRunning] = usePersistedState<Timer | Partial<Timer> | null>('running', null);
     const intervalRef: MutableRefObject<number | undefined> = useRef();
     const [history, setHistory] = usePersistedState<string[]>('history', []);
+    const [params, setParams] = useSearchParams();
 
     useEffect(() => {
         if (running === null) {
@@ -89,6 +91,28 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
             clearInterval(intervalRef.current);
         };
     }, []);
+
+    useEffect(() => {
+        const timersParam = params.get('timers');
+        if (timers.length === 0 && timersParam) {
+            //We initialize the timers with the timers from the URL and reset the workout.
+            setTimers(JSON.parse(timersParam));
+            if (running === null) {
+                stopWorkout(setTimers, setRunning);
+            } else {
+                //setRunning(null);
+                //console.log('starting running', running);
+                startWorkout(null, setTimers, setRunning, setHistory, history, intervalRef);
+                //startWorkout();
+            }
+
+            //stopWorkout(setTimers, setRunning);
+        } else if (timers.length > 0) {
+            const timersString = JSON.stringify(timers);
+            params.set('timers', timersString);
+            setParams(params);
+        }
+    }, [params, timers, setParams, running, setRunning, history, setHistory]);
 
     return (
         <TimersContext.Provider
@@ -131,64 +155,7 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
                 },
                 deleteTimer: id => setTimers(timers.filter(t => t.id !== id)),
                 startWorkout: () => {
-                    if (running === null) {
-                        intervalRef.current = setInterval(() => {
-                            setTimers(prevTimers => {
-                                //We get the index ot the current timer on the array.
-                                const timerIndex = prevTimers.findIndex(timer => timer.status === 'stopped' || timer.status === 'running');
-
-                                //If no timer is left to run we restart the workout.
-                                if (timerIndex === -1) {
-                                    stopWorkout(setTimers, setRunning);
-                                    return prevTimers;
-                                }
-
-                                const updatedTimers = [...prevTimers];
-                                const nextTimer = { ...updatedTimers[timerIndex] };
-
-                                //We increase or decrease the time depending on the type of timer, stopwatch is the only one that goes forward in time.
-                                const timeIncrease = nextTimer.type === 'Stopwatch' ? 1000 : -1000;
-                                nextTimer.duration += timeIncrease;
-
-                                // The logic for the 4 timers is handled here.
-                                if (nextTimer.duration <= 0) {
-                                    if (nextTimer.rounds !== undefined && nextTimer.rounds > 1) {
-                                        nextTimer.rounds -= 1;
-                                        if (nextTimer.restDuration === undefined) {
-                                            nextTimer.duration = nextTimer.initialDuration;
-                                        } else {
-                                            if (nextTimer.rounds % 2 === 0) {
-                                                nextTimer.duration = nextTimer.initialDuration;
-                                            } else {
-                                                nextTimer.duration = nextTimer.initialRestDuration ? nextTimer.initialRestDuration : 0;
-                                            }
-                                        }
-                                    } else {
-                                        if (nextTimer.rounds !== undefined) {
-                                            nextTimer.rounds -= 1;
-                                        }
-                                        nextTimer.status = 'finished';
-                                    }
-                                } else if (nextTimer.type === 'Stopwatch' && nextTimer.duration >= nextTimer.initialDuration) {
-                                    nextTimer.status = 'finished';
-                                } else {
-                                    nextTimer.status = 'running';
-                                }
-
-                                updatedTimers[timerIndex] = nextTimer;
-                                setRunning(updatedTimers[timerIndex]);
-
-                                if (timerIndex === updatedTimers.length - 1 && nextTimer.status === 'finished') {
-                                    setHistory([...history, new Date().toLocaleString()]);
-                                }
-
-                                return updatedTimers;
-                            });
-                        }, 1000);
-                    } else {
-                        //We pause the workout.
-                        setRunning(null);
-                    }
+                    startWorkout(running, setTimers, setRunning, setHistory, history, intervalRef);
                 },
                 stopWorkout: () => {
                     stopWorkout(setTimers, setRunning);
