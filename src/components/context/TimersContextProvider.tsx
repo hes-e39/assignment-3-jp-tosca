@@ -1,7 +1,7 @@
 import { type MutableRefObject, createContext, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { usePersistedState } from '../../hooks/usePersistedState';
-import { startWorkout, stopWorkout } from '../../utils/helpers';
+import { startWorkout, stopWorkout } from '../../utils/contextFunctions';
 
 export type Timer = {
     id: string;
