@@ -149,7 +149,13 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
                     updatedTimers[timerIndex] = updatedTimer;
                     setTimers(updatedTimers);
                 },
-                deleteTimer: id => setTimers(timers.filter(t => t.id !== id)),
+                deleteTimer: id => {
+                    if (timers.length === 1) {
+                        params.delete('timers');
+                        setParams(params);
+                    }
+                    setTimers(timers.filter(t => t.id !== id));
+                },
                 startWorkout: () => {
                     startWorkout(running, setTimers, setRunning, setHistory, history, intervalRef);
                 },
