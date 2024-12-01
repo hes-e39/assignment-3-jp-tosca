@@ -95,19 +95,15 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         const timersParam = params.get('timers');
         if (timers.length === 0 && timersParam) {
-            //We initialize the timers with the timers from the URL and reset the workout.
+            //We initialize the timers with the timers from the URL and reset the workout if it was not running.
             setTimers(JSON.parse(timersParam));
             if (running === null) {
                 stopWorkout(setTimers, setRunning);
             } else {
-                //setRunning(null);
-                //console.log('starting running', running);
                 startWorkout(null, setTimers, setRunning, setHistory, history, intervalRef);
-                //startWorkout();
             }
-
-            //stopWorkout(setTimers, setRunning);
         } else if (timers.length > 0) {
+            //We update the URL with the current timers.
             const timersString = JSON.stringify(timers);
             params.set('timers', timersString);
             setParams(params);
