@@ -30,6 +30,20 @@ export type TimersContextType = {
         restDuration?: number;
         initialRestDuration?: number;
     }) => Timer;
+    updateTimer: (
+        id: string,
+        timer: {
+            status?: string;
+            timerLabel?: string;
+            type?: string;
+            duration?: number;
+            initialDuration?: number;
+            rounds?: number;
+            initialRounds?: number;
+            restDuration?: number;
+            initialRestDuration?: number;
+        },
+    ) => void;
     deleteTimer: (id: string) => void;
     swapTimers: (id1: string, id2: string) => void;
     startWorkout: () => void;
@@ -48,6 +62,7 @@ export const TimersContext = createContext<TimersContextType>({
         initialDuration: 0,
         setDuration: () => {},
     }),
+    updateTimer: () => {},
     setRunning: () => {},
     deleteTimer: () => {},
     startWorkout: () => {},
@@ -96,6 +111,23 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
                     };
                     setTimers([...timers, newTimer]);
                     return newTimer;
+                },
+                updateTimer: (id, { status, timerLabel, type, duration, initialDuration, rounds, initialRounds, restDuration, initialRestDuration }) => {
+                    const timerIndex = timers.findIndex(timer => timer.id === id);
+                    if (timerIndex === -1) return;
+                    const updatedTimers = [...timers];
+                    const updatedTimer = { ...updatedTimers[timerIndex] };
+                    if (status) updatedTimer.status = status;
+                    if (timerLabel) updatedTimer.timerLabel = timerLabel;
+                    if (type) updatedTimer.type = type;
+                    if (duration) updatedTimer.duration = duration;
+                    if (initialDuration) updatedTimer.initialDuration = initialDuration;
+                    if (rounds) updatedTimer.rounds = rounds;
+                    if (initialRounds) updatedTimer.initialRounds = initialRounds;
+                    if (restDuration) updatedTimer.restDuration = restDuration;
+                    if (initialRestDuration) updatedTimer.initialRestDuration = initialRestDuration;
+                    updatedTimers[timerIndex] = updatedTimer;
+                    setTimers(updatedTimers);
                 },
                 deleteTimer: id => setTimers(timers.filter(t => t.id !== id)),
                 startWorkout: () => {
