@@ -76,7 +76,7 @@ const TimersContextProvider = ({ children }: { children: React.ReactNode }) => {
     const [timers, setTimers] = useState<Timer[]>([]);
     //const [running, setRunning] = useState<Timer | Partial<Timer> | null>(null);
     const [running, setRunning] = usePersistedState<Timer | Partial<Timer> | null>('running', null);
-    const intervalRef: MutableRefObject<number | undefined> = useRef();
+    const intervalRef: MutableRefObject<NodeJS.Timeout | undefined> = useRef();
     const [history, setHistory] = usePersistedState<string[]>('history', []);
     const [params, setParams] = useSearchParams();
 

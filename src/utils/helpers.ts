@@ -88,7 +88,7 @@ export function startWorkout(
     setRunning: (value: Timer | Partial<Timer> | null) => void,
     setHistory: (value: string[]) => void,
     history: string[],
-    intervalRef: MutableRefObject<number | undefined>,
+    intervalRef: MutableRefObject<NodeJS.Timeout | undefined>,
 ): void {
     if (running === null) {
         intervalRef.current = setInterval(() => {
