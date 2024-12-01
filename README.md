@@ -41,7 +41,7 @@ We want to create a new screen that displays a list of previous workouts (create
 ## Feature Checklist
 
 - [ ] Persisting state
-- [ ] Edit a timer
+- [x] Edit a timer
 - [x] Change the order of a timer in configured workout
 - [x] Display total time
 - [x] Add description to each timer
